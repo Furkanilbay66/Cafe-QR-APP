@@ -1,25 +1,35 @@
 {
-  "name": "qr-menu-backend",
+  "name": "cafe-qr-frontend",
   "version": "1.0.0",
-  "description": "QR Menü Backend API",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "init-db": "node init-db.js"
-  },
-  "keywords": [
-    "qr-menu",
-    "restaurant",
-    "api"
-  ],
-  "author": "",
-  "license": "MIT",
+  "private": true,
+  "description": "QR Menü - Frontend Only Version",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "lucide-react": "^0.263.1"
   },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
