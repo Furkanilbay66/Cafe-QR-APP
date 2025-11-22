@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Kod Üretici - Lumière</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        @media print {
+            .no-print {
+                display: none;
+            }
+            .print-container {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black min-h-screen p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-white font-serif mb-3">Lumière QR Generator</h1>
+            <p class="text-gray-400">Menü ve masa kartları için QR kod oluşturun</p>
+        </div>
+        
+        <!-- Input Section -->
+        <div class="no-print bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 mb-8">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Menü URL'si</label>
+                    <input 
+                        type="text" 
+                        id="menuUrl" 
+                        value="http://localhost:3000"
+                        class="w-full p-4 bg-white/10 border border-white/10 rounded-xl text-white outline-none focus:border-amber-500"
+                        placeholder="http://localhost:3000"
+                    />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Masa Numarası (Opsiyonel)</label>
+                    <input 
+                        type="text" 
+                        id="tableNumber" 
+                        class="w-full p-4 bg-white/10 border border-white/10 rounded-xl text-white outline-none focus:border-amber-500"
+                        placeholder="örn. 5"
+                    />
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-300 mb-2">Logo URL (Opsiyonel)</label>
+                <input 
+                    type="text" 
+                    id="logoUrl" 
+                    class="w-full p-4 bg-white/10 border border-white/10 rounded-xl text-white outline-none focus:border-amber-500"
+                    placeholder="Logo URL'si"
+                />
+            </div>
+            
+            <button 
+                onclick="generateQR()" 
+                class="w-full mt-6 py-4 bg-gradient-to-r from-amber-400 to-amber-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-amber-500/30 transition-all text-lg"
+            >
+                QR Kod Oluştur
+            </button>
+        </div>
+        
+        <!-- QR Code Display -->
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Simple QR -->
+            <div class="print-container bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center">
+                <h2 class="text-2xl font-bold text-white mb-6 font-serif">Basit QR Kod</h2>
+                <div class="bg-white rounded-2xl p-8 inline-block">
+                    <canvas id="qrCanvas"></canvas>
+                </div>
+                <button 
+                    onclick="downloadQR('qrCanvas', 'lumiere-qr-simple.png')" 
+                    class="no-print mt-6 px-6 py-3 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-all"
+                >
+                    İndir (PNG)
+                </button>
+            </div>
+            
+            <!-- Table Card QR -->
+            <div id="tableCard" class="print-container bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl p-8 shadow-2xl" style="display: none;">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-white/20 rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl font-bold text-white font-serif mb-2">Lumière</h1>
+                    <p class="text-white/80 text-sm uppercase tracking-widest">Fine Dining Experience</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 mb-6">
+                    <canvas id="tableQrCanvas"></canvas>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 mb-4">
+                        <p class="text-white text-sm font-medium mb-1">MASA NUMARASI</p>
+                        <p id="displayTableNumber" class="text-white text-5xl font-bold">-</p>
+                    </div>
+                    <p class="text-white text-sm">
+                        Telefonunuzla QR kodu tarayın<br/>
+                        ve menüyü görüntüleyin
+                    </p>
+                </div>
+                
+                <button 
+                    onclick="printTableCard()" 
+                    class="no-print w-full mt-6 px-6 py-3 bg-white text-amber-600 font-bold rounded-xl hover:bg-gray-100 transition-all"
+                >
+                    Masa Kartını Yazdır
+                </button>
+            </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="no-print mt-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-4 font-serif">Kullanım Talimatları</h2>
+            <ul class="space-y-3 text-gray-300">
+                <li class="flex items-start gap-3">
+                    <span class="text-amber-400 font-bold">1.</span>
+                    <span>Menü URL'nizi girin (örn. http://yourdomain.com)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-amber-400 font-bold">2.</span>
+                    <span>Masa kartı oluşturmak için masa numarası ekleyin (opsiyonel)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-amber-400 font-bold">3.</span>
+                    <span>"QR Kod Oluştur" butonuna tıklayın</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-amber-400 font-bold">4.</span>
+                    <span>Basit QR kodu PNG olarak indirebilir veya masa kartını yazdırabilirsiniz</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function generateQR() {
+            const menuUrl = document.getElementById('menuUrl').value;
+            const tableNumber = document.getElementById('tableNumber').value;
+            const logoUrl = document.getElementById('logoUrl').value;
+            
+            if (!menuUrl) {
+                alert('Lütfen menü URL\'si girin!');
+                return;
+            }
+            
+            // Basit QR Kod
+            const canvas = document.getElementById('qrCanvas');
+            QRCode.toCanvas(canvas, menuUrl, {
+                width: 300,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                }
+            });
+            
+            // Masa Kartı QR Kodu
+            if (tableNumber) {
+                const tableCard = document.getElementById('tableCard');
+                const tableCanvas = document.getElementById('tableQrCanvas');
+                const displayNumber = document.getElementById('displayTableNumber');
+                
+                // URL'ye masa numarasını ekle
+                const urlWithTable = `${menuUrl}?table=${tableNumber}`;
+                
+                QRCode.toCanvas(tableCanvas, urlWithTable, {
+                    width: 300,
+                    margin: 2,
+                    color: {
+                        dark: '#000000',
+                        light: '#ffffff'
+                    }
+                });
+                
+                displayNumber.textContent = tableNumber;
+                tableCard.style.display = 'block';
+            }
+        }
+        
+        function downloadQR(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const url = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = url;
+            link.click();
+        }
+        
+        function printTableCard() {
+            window.print();
+        }
+        
+        // Sayfa yüklendiğinde otomatik QR oluştur
+        window.onload = function() {
+            generateQR();
+        };
+    </script>
+</body>
+</html>
+

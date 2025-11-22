@@ -1,0 +1,16 @@
+{
+  "short_name": "Lumière QR",
+  "name": "Lumière QR Menü Sistemi",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#F59E0B",
+  "background_color": "#0A0A0A"
+}
+

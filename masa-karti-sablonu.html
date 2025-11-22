@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière Masa Kartı Şablonu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .table-card {
+            width: 350px;
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo-icon {
+            font-size: 40px;
+        }
+        
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .tagline {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+        }
+        
+        .qr-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .qr-placeholder {
+            width: 250px;
+            height: 250px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .table-number-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .table-label {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        
+        .table-number {
+            color: white;
+            font-size: 60px;
+            font-weight: 700;
+        }
+        
+        .instructions {
+            color: white;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .decorative-line {
+            width: 60px;
+            height: 3px;
+            background: white;
+            margin: 20px auto;
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .table-card {
+                width: 100%;
+                max-width: 350px;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="table-card">
+        <div class="logo-container">
+            <div class="logo-icon">🍽️</div>
+        </div>
+        
+        <h1 class="brand-name">Lumière</h1>
+        <p class="tagline">Fine Dining Experience</p>
+        
+        <div class="qr-container">
+            <div class="qr-placeholder">
+                QR Kodunuzu buraya ekleyin
+            </div>
+        </div>
+        
+        <div class="table-number-container">
+            <p class="table-label">MASA NUMARASI</p>
+            <p class="table-number">05</p>
+        </div>
+        
+        <div class="decorative-line"></div>
+        
+        <p class="instructions">
+            📱 Telefonunuzla QR kodu tarayın<br/>
+            ve menümüzü görüntüleyin
+        </p>
+    </div>
+    
+    <script>
+        // Bu şablon, qr-generator.html sayfasından oluşturulan
+        // gerçek QR kodlarla kullanılabilir.
+        // Veya tasarımınızı özelleştirmek için bir referans olarak kullanın.
+    </script>
+</body>
+</html>
+
