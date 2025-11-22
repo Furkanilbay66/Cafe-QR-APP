@@ -1,40 +1,25 @@
 {
-  "name": "lumiere-qr-menu",
+  "name": "qr-menu-backend",
   "version": "1.0.0",
-  "description": "Profesyonel QR Menü + Admin Panel + Sipariş Sistemi",
-  "private": true,
-  "dependencies": {
-    "lucide-react": "^0.263.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1"
-  },
+  "description": "QR Menü Backend API",
+  "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "backend": "cd backend && npm start",
-    "dev": "concurrently \"npm run backend\" \"npm start\""
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "init-db": "node init-db.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [
+    "qr-menu",
+    "restaurant",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "nodemon": "^3.0.1"
   }
 }
